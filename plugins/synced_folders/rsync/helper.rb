@@ -61,9 +61,12 @@ module VagrantPlugins
           proxy_command = "-o ProxyCommand='#{ssh_info[:proxy_command]}' "
         end
 
+        pty = machine.config.ssh.pty ? "-t -t " : ""
+
         rsh = [
           "ssh -p #{ssh_info[:port]} " +
           proxy_command +
+          pty +
           "-o StrictHostKeyChecking=no " +
           "-o UserKnownHostsFile=/dev/null",
           ssh_info[:private_key_path].map { |p| "-i '#{p}'" },
